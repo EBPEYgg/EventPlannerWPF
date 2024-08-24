@@ -9,7 +9,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\close_30x30.png" />
+    <None Remove="Resources\email_50x50.png" />
+    <None Remove="Resources\expand_arrow_32x32.png" />
+    <None Remove="Resources\lock_50x50.png" />
+    <None Remove="Resources\minimize_30x30.png" />
+    <None Remove="Resources\register_photo_180x180.png" />
+    <None Remove="Resources\white_expand_arrow_32x32.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EventPlannerWPF.ViewModel\EventPlannerWPF.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\close_30x30.png" />
+    <Resource Include="Resources\email_50x50.png" />
+    <Resource Include="Resources\lock_50x50.png" />
+    <Resource Include="Resources\minimize_30x30.png" />
+    <Resource Include="Resources\register_photo_180x180.png" />
+    <Resource Include="Resources\white_expand_arrow_32x32.png" />
   </ItemGroup>
 
 </Project>

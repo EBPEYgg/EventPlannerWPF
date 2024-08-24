@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="EventPlannerWPF.View.Controls.EventPlannerUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EventPlannerWPF.View.Controls"
+             xmlns:vm="clr-namespace:EventPlannerWPF.ViewModel;assembly=EventPlannerWPF.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <vm:MainVM/>
+    </UserControl.DataContext>
+    
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--пункт 1-->
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="90,40,0,0">
+            <TextBlock Text="16" Margin="0 0 10 0" FontSize="24"/>
+            <TextBlock Text="Nov" Margin="0 3 0 0" FontSize="20"/>
+        </StackPanel>
+
+        <Separator Background="Black" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="200" Width="260"/>
+
+        <!--пункт 2-->
+        <StackPanel Grid.Column="0" Margin="0,114,0,0">
+            <!--todo list-->
+            <Grid Height="250">
+                <ListBox Padding="10 10 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0,0,0,0">
+                    <Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <RadioButton Content="10:00 - 12:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0"/>
+                            <TextBlock Text="My first task. Here description about my task." Grid.Row="1" HorizontalAlignment="Left" Margin="26,0,0,0" TextWrapping="Wrap"/>
+                        </Grid>
+                    </Border>
+
+                    <Border>
+                        <Grid Margin="0 10 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <RadioButton Content="12:30 - 14:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0" IsChecked="True"/>
+                            <TextBlock Text="This is second task." Grid.Row="1" HorizontalAlignment="Left" Margin="26,0,0,0" TextWrapping="Wrap"/>
+                        </Grid>
+                    </Border>
+                </ListBox>
+            </Grid>
+            <!--плашка пользователя-->
+            <Grid Width="150">
+                <Button VerticalAlignment="Top" Margin="0,32,0,0" Style="{StaticResource UserButton}" Height="40">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="John H." VerticalAlignment="Center"/>
+                        <Image Source="/Resources/white_expand_arrow_32x32.png" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Content="Logout" Command="{Binding LogoutCommand}" Margin="0,32,0,0" VerticalAlignment="Bottom"/>
+            </Grid>
+        </StackPanel>
+
+        <Separator Background="Black" Grid.Column="1">
+            <Separator.LayoutTransform>
+                <RotateTransform Angle="90" />
+            </Separator.LayoutTransform>
+        </Separator>
+
+        <!--пункт 3-->
+        <Grid Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Стрелочка влево -->
+            <Button Grid.Column="0" Content="←" Command="{Binding PreviousMonthCommand}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Background="{x:Null}"/>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,20,0">
+                <TextBlock Text="Июль" VerticalAlignment="Center" FontSize="16" Opacity="0.6"/>
+                <TextBlock Text="Август" Margin="20 -3 20 0" VerticalAlignment="Center" Foreground="#FF5800" FontSize="20" FontWeight="Bold"/>
+                <TextBlock Text="Сентябрь" VerticalAlignment="Center" FontSize="16" Opacity="0.6"/>
+            </StackPanel>
+
+            <!-- Стрелочка вправо -->
+            <Button Grid.Column="2" Content="→" Command="{Binding NextMonthCommand}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        </Grid>
+
+        <!--пункт 4-->
+        <Grid Grid.Column="2" Margin="0,114,0,0">
+            <!-- Заголовки для дней недели -->
+            <UniformGrid Rows="1" Columns="7" Margin="0,10,0,0">
+                <TextBlock Text="Пн" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Вт" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Ср" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Чт" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Пт" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Сб" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Вс" FontWeight="Bold" HorizontalAlignment="Center"/>
+            </UniformGrid>
+
+            <!-- Сетка календаря -->
+            <ItemsControl ItemsSource="{Binding Days}" Margin="5,52,5,5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="5" Columns="7" Margin="0,-17,0,8"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CalendarDayCellStyle}">
+                            <TextBlock Text="{Binding DisplayText}" Opacity="{Binding Opacity}" FontWeight="{Binding Bold}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Grid>
+</UserControl>

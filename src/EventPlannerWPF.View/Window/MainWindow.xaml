@@ -1,0 +1,29 @@
+﻿<Window x:Class="EventPlannerWPF.View.Window.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EventPlannerWPF.View.Window"
+        xmlns:vm="clr-namespace:EventPlannerWPF.ViewModel;assembly=EventPlannerWPF.ViewModel"
+        xmlns:uc="clr-namespace:EventPlannerWPF.View.Controls"
+        mc:Ignorable="d" Background="Transparent" AllowsTransparency="True"
+        Title="MainWindow" Height="680" Width="1000" MinHeight="680" MinWidth="1000"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:LoginVM}">
+            <uc:LoginUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RegisterVM}">
+            <uc:RegisterUserControl/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MainVM}">
+            <uc:EventPlannerUserControl/>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Window.DataContext>
+        <vm:NavigationVM/>
+    </Window.DataContext>
+
+    <ContentControl Content="{Binding SelectedViewModel}"/>
+</Window>
