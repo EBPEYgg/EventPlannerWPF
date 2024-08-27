@@ -15,6 +15,7 @@
     <None Remove="Resources\lock_50x50.png" />
     <None Remove="Resources\minimize_30x30.png" />
     <None Remove="Resources\register_photo_180x180.png" />
+    <None Remove="Resources\username_50x50.png" />
     <None Remove="Resources\white_expand_arrow_32x32.png" />
   </ItemGroup>
 
@@ -36,6 +37,7 @@
     <Resource Include="Resources\lock_50x50.png" />
     <Resource Include="Resources\minimize_30x30.png" />
     <Resource Include="Resources\register_photo_180x180.png" />
+    <Resource Include="Resources\username_50x50.png" />
     <Resource Include="Resources\white_expand_arrow_32x32.png" />
   </ItemGroup>
 
