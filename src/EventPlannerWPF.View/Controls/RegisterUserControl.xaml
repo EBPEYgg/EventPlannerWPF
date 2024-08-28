@@ -49,8 +49,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Image Source="/Resources/email_50x50.png" Height="20" />
-                            <!--<TextBlock Text="Email" Style="{StaticResource textHint}" />-->
-                            <TextBox Style="{StaticResource AppTextBox}" Text="{Binding Email}" />
+                            <TextBox Style="{StaticResource EmailTextBox}" Text="{Binding Email}" VerticalContentAlignment="Center" />
                         </Grid>
                     </Border>
 
@@ -62,8 +61,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Image Source="/Resources/username_50x50.png" Height="20" />
-                            <!--<TextBlock Text="Username" Style="{StaticResource textHint}" />-->
-                            <TextBox Style="{StaticResource AppTextBox}" Text="{Binding UserLogin}" />
+                            <TextBox Style="{StaticResource LoginTextBox}" Text="{Binding UserLogin}" />
                         </Grid>
                     </Border>
 
@@ -75,8 +73,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Image Source="/Resources/lock_50x50.png" Height="20" />
-                            <!--<TextBlock Text="Password" Style="{StaticResource textHint}" />-->
-                            <TextBox Style="{StaticResource AppTextBox}" Text="{Binding Password}" />
+                            <TextBox Style="{StaticResource PasswordTextBox}" Text="{Binding Password}" />
                         </Grid>
                     </Border>
 

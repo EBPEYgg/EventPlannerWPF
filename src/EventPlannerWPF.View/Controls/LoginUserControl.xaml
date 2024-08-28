@@ -59,8 +59,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Image Source="/Resources/username_50x50.png" Height="20" />
-                            <!--<TextBlock x:Name="textEmail" Text="Email" Style="{StaticResource textHint}" />-->
-                            <TextBox Style="{StaticResource AppTextBox}" Text="{Binding LoginText, Mode=TwoWay}" TabIndex="0" />
+                            <TextBox Style="{StaticResource LoginTextBox}" Text="{Binding LoginText, Mode=TwoWay}" TabIndex="0" />
                         </Grid>
                     </Border>
 
@@ -72,8 +71,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Image Source="/Resources/lock_50x50.png" Height="20" />
-                            <!--<TextBlock x:Name="textPassword" Text="Password" Style="{StaticResource textHint}" />-->
-                            <TextBox Style="{StaticResource AppTextBox}" MaxLength="20" Text="{Binding PasswordText}" TabIndex="1"/>
+                            <TextBox Style="{StaticResource PasswordTextBox}" MaxLength="20" Text="{Binding PasswordText}" TabIndex="1"/>
                         </Grid>
                     </Border>
 
