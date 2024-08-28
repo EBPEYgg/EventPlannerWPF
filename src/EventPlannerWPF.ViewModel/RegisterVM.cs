@@ -40,7 +40,6 @@ namespace EventPlannerWPF.ViewModel
 
             using (EventPlannerContext db = new EventPlannerContext())
             {
-                db.Database.OpenConnectionAsync().Wait();
                 User newUser = new User(UserLogin, Password, DateTime.Now);
                 db.User.Add(newUser);
                 await db.SaveChangesAsync();
