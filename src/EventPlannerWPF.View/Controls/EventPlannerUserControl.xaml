@@ -12,7 +12,7 @@
         <vm:MainVM/>
     </UserControl.DataContext>
     
-    <Grid Background="White">
+    <Grid Background="#FFF7F7F7">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260"/>
             <ColumnDefinition Width="2"/>
@@ -29,9 +29,9 @@
 
         <!--пункт 2-->
         <StackPanel Grid.Column="0" Margin="0,114,0,0">
-            <!--todo list-->
+            <!-- Todo list -->
             <Grid Height="250">
-                <ListBox Padding="10 10 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0,0,0,0">
+                <ListBox Background="#FFF7F7F7" Padding="10 10 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0,0,0,0">
                     <Border>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -39,7 +39,7 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <RadioButton Content="10:00 - 12:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0"/>
+                            <CheckBox Content="10:00 - 12:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0" FontStyle="Italic"/>
                             <TextBlock Text="My first task. Here description about my task." Grid.Row="1" HorizontalAlignment="Left" Margin="26,0,0,0" TextWrapping="Wrap"/>
                         </Grid>
                     </Border>
@@ -51,22 +51,29 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <RadioButton Content="12:30 - 14:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0" IsChecked="True"/>
+                            <CheckBox Content="12:30 - 14:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0" IsChecked="True" FontStyle="Italic"/>
                             <TextBlock Text="This is second task." Grid.Row="1" HorizontalAlignment="Left" Margin="26,0,0,0" TextWrapping="Wrap"/>
                         </Grid>
                     </Border>
                 </ListBox>
             </Grid>
-            <!--плашка пользователя-->
+
+            <!-- Плашка пользователя -->
             <Grid Width="150">
-                <Button VerticalAlignment="Top" Margin="0,32,0,0" Style="{StaticResource UserButton}" Height="40">
+                <Button VerticalAlignment="Top" Style="{StaticResource UserButton}" Height="40" Command="{Binding RotateImageCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="John H." VerticalAlignment="Center"/>
-                        <Image Source="/Resources/white_expand_arrow_32x32.png" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding AboutUser}" VerticalAlignment="Center" Margin="0,0,0,3"/>
+                        <Image Source="/Resources/white_expand_arrow_32x32.png" Height="24" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <Image.RenderTransform>
+                                <RotateTransform Angle="{Binding RotateAngle}" CenterX="12" CenterY="12"/>
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
 
-                <Button Content="Logout" Command="{Binding LogoutCommand}" Margin="0,32,0,0" VerticalAlignment="Bottom"/>
+                <Button Content="Logout" Command="{Binding LogoutCommand}" Margin="0,51,0,0" VerticalAlignment="Top"/>
+
+                <Button Content="Change user name" Margin="0,-67,0,128" Click="Button_Click"/>
             </Grid>
         </StackPanel>
 

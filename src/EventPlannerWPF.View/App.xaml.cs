@@ -1,5 +1,5 @@
 ﻿using EventPlannerWPF.View.Controls;
-using EventPlannerWPF.View.Window;
+using EventPlannerWPF.View.Windows;
 using EventPlannerWPF.ViewModel;
 using EventPlannerWPF.ViewModel.Services;
 using System.Windows;

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EventPlannerWPF.Model.Classes;
 using EventPlannerWPF.ViewModel.Services;
 using System.Collections.ObjectModel;
 
@@ -12,10 +13,22 @@ namespace EventPlannerWPF.ViewModel
         [ObservableProperty]
         private DayVM _selectedDay;
 
+        [ObservableProperty]
+        private string _aboutUser;
+
+        [ObservableProperty]
+        private int _rotateAngle;
+
+        [ObservableProperty]
+        private bool _contextMenuIsOpen = false;
+
+        public User? CurrentUser => UserSession.Instance.CurrentUser;
+
         public ObservableCollection<DayVM> Days { get; private set; }
 
         public MainVM()
         {
+            AboutUser = CurrentUser.Login;
             _currentDate = DateTime.Now;
             LoadCalendar();
         }
@@ -57,8 +70,16 @@ namespace EventPlannerWPF.ViewModel
         }
 
         [RelayCommand]
+        private void RotateImage()
+        {
+            RotateAngle += 180;
+            ContextMenuIsOpen = !ContextMenuIsOpen;
+        }
+
+        [RelayCommand]
         private void Logout()
         {
+            UserSession.Instance.ClearUser();
             NavigationService.NavigateTo<LoginVM>();
         }
 

@@ -1,9 +1,11 @@
-﻿namespace EventPlannerWPF.View.Window
+﻿using System.Windows;
+
+namespace EventPlannerWPF.View.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml.
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
