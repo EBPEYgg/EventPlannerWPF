@@ -8,7 +8,8 @@ namespace EventPlannerWPF.ViewModel
 {
     public partial class MainVM : ObservableObject
     {
-        private DateTime _currentDate;
+        [ObservableProperty]
+        private DateTime _currentDate = DateTime.Now;
 
         [ObservableProperty]
         private DayVM _selectedDay;
@@ -29,7 +30,6 @@ namespace EventPlannerWPF.ViewModel
         public MainVM()
         {
             AboutUser = CurrentUser.Login;
-            _currentDate = DateTime.Now;
             LoadCalendar();
         }
 

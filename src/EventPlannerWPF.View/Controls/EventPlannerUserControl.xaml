@@ -11,7 +11,7 @@
     <UserControl.DataContext>
         <vm:MainVM/>
     </UserControl.DataContext>
-    
+
     <Grid Background="#FFF7F7F7">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260"/>
@@ -21,8 +21,8 @@
 
         <!--пункт 1-->
         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="90,40,0,0">
-            <TextBlock Text="16" Margin="0 0 10 0" FontSize="24"/>
-            <TextBlock Text="Nov" Margin="0 3 0 0" FontSize="20"/>
+            <TextBlock Text="{Binding CurrentDate, StringFormat=dd}" Margin="0 0 10 0" FontSize="24"/>
+            <TextBlock Text="{Binding CurrentDate, StringFormat=MMM}" Margin="0 3 0 0" FontSize="20"/>
         </StackPanel>
 
         <Separator Background="Black" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="200" Width="260"/>
