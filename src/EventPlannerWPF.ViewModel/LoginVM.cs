@@ -50,6 +50,7 @@ namespace EventPlannerWPF.ViewModel
             }
 
             var currentUser = await db.User
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Login == LoginText && u.Password == PasswordText);
 
             if (currentUser != null)
