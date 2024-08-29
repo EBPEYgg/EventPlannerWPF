@@ -51,30 +51,10 @@
                 <StackPanel VerticalAlignment="Center" Margin="0,165,0,0">
                     <TextBlock Text="Sign in to App" Foreground="#3AB19B" Style="{StaticResource TitleText}" Padding="0,0,0,20" />
 
-                    <Border BorderBrush="#ACB0AF" BorderThickness="1" Margin="170,7,170,7" CornerRadius="5">
-                        <Grid Margin="7 9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                    <local:IconTextBoxControl IconSource="/Resources/username_50x50.png" Placeholder="Login" Text="{Binding LoginText, Mode=TwoWay}" TabIndex="0" MaxLength="20"/>
 
-                            <Image Source="/Resources/username_50x50.png" Height="20" />
-                            <TextBox Style="{StaticResource LoginTextBox}" Text="{Binding LoginText, Mode=TwoWay}" TabIndex="0" />
-                        </Grid>
-                    </Border>
-
-                    <Border BorderBrush="#ACB0AF" BorderThickness="1" Margin="170,7,170,7" CornerRadius="5">
-                        <Grid Margin="7 9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Image Source="/Resources/lock_50x50.png" Height="20" />
-                            <TextBox Style="{StaticResource PasswordTextBox}" MaxLength="20" Text="{Binding PasswordText}" TabIndex="1"/>
-                        </Grid>
-                    </Border>
-
+                    <local:IconTextBoxControl IconSource="/Resources/lock_50x50.png" Placeholder="Password" Text="{Binding PasswordText, Mode=TwoWay}" TabIndex="1" MaxLength="20"/>
+                    
                     <Button Content="Sign In" Style="{StaticResource GreenRoundButton}" Command="{Binding LoginCommand, Mode=OneWay}" Margin="0 20 0 0" TabIndex="2"/>
                 </StackPanel>
 

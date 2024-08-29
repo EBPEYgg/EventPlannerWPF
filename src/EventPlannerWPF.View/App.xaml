@@ -2,7 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:EventPlannerWPF.View"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+             xmlns:controls="clr-namespace:EventPlannerWPF.View.Controls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:services="clr-namespace:EventPlannerWPF.View.Services">
     <Application.Resources>
 
         <Style x:Key="TitleText" TargetType="TextBlock">
@@ -125,76 +127,64 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="TextHint" TargetType="TextBlock">
+        <Style x:Key="UserButton" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Grid.Column" Value="1" />
-            <Setter Property="Panel.ZIndex" Value="1" />
-            <Setter Property="Margin" Value="10 0 0 0" />
-            <Setter Property="Foreground" Value="#ACB0AF" />
+            <Setter Property="Background" Value="#3AB19B" />
+            <Setter Property="Foreground" Value="#FDFEFE" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="20" BorderBrush="#49B7A3" Padding="10" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#339685" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background" Value="#2d7a6c" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
-        <Style x:Key="AppTextBox" TargetType="Control">
+        <Style x:Key="PlaceholderTextBox" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type controls:PlaceholderTextBoxControl}">
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Grid.Column" Value="1" />
-            <Setter Property="Margin" Value="10 0 0 0" />
             <Setter Property="Foreground" Value="#878787" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="Background" Value="#f6f6f6" />
             <Setter Property="BorderThickness" Value="0" />
-        </Style>
-
-        <Style x:Key="LoginTextBox" TargetType="TextBox" BasedOn="{StaticResource AppTextBox}">
-            <Style.Resources>
-                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                    <VisualBrush.Visual>
-                        <Label Content="Login" Foreground="#acb0af" FontSize="14" FontFamily="Cambria"/>
-                    </VisualBrush.Visual>
-                </VisualBrush>
-            </Style.Resources>
-            <Style.Triggers>
-                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                </Trigger>
-                <Trigger Property="Text" Value="{x:Null}">
-                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="PasswordTextBox" TargetType="TextBox" BasedOn="{StaticResource AppTextBox}">
-            <Style.Resources>
-                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                    <VisualBrush.Visual>
-                        <Label Content="Password" Foreground="#acb0af" FontSize="14" FontFamily="Cambria"/>
-                    </VisualBrush.Visual>
-                </VisualBrush>
-            </Style.Resources>
-            <Style.Triggers>
-                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                </Trigger>
-                <Trigger Property="Text" Value="{x:Null}">
-                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="EmailTextBox" TargetType="TextBox" BasedOn="{StaticResource AppTextBox}">
-            <Style.Resources>
-                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                    <VisualBrush.Visual>
-                        <Label Content="Email" Foreground="#acb0af" FontSize="14" FontFamily="Cambria"/>
-                    </VisualBrush.Visual>
-                </VisualBrush>
-            </Style.Resources>
-            <Style.Triggers>
-                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                </Trigger>
-                <Trigger Property="Text" Value="{x:Null}">
-                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type controls:PlaceholderTextBoxControl}">
+                        <ControlTemplate.Resources>
+                            <services:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+                            <services:AddLeftPaddingConverter x:Key="AddLeftPaddingConverter" />
+                        </ControlTemplate.Resources>
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost" />
+                                <TextBlock
+                                    Padding="{TemplateBinding Padding, Converter={StaticResource AddLeftPaddingConverter}, ConverterParameter=3}"
+                                    Margin="0 1 0 0"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="Center"
+                                    IsHitTestVisible="False"
+                                    Foreground="#acb0af" 
+                                    FontSize="14" 
+                                    FontFamily="Cambria"
+                                    Text="{TemplateBinding Placeholder}"
+                                    Visibility="{TemplateBinding IsEmpty, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="ArrowButton" TargetType="Button">
@@ -248,32 +238,6 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-
-        <Style x:Key="UserButton" TargetType="{x:Type Button}">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Background" Value="#3AB19B" />
-            <Setter Property="Foreground" Value="#FDFEFE" />
-            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="20" BorderBrush="#49B7A3" Padding="10" BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#339685" />
-                    <Setter Property="Foreground" Value="White" />
-                </Trigger>
-                <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#2d7a6c" />
-                    <Setter Property="Foreground" Value="White" />
-                </Trigger>
-            </Style.Triggers>
         </Style>
 
         <Style x:Key="CalendarDayCellStyle" TargetType="Border">

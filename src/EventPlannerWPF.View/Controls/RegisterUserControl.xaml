@@ -41,45 +41,15 @@
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Registration" Style="{StaticResource TitleText}" Padding="0,0,0,20" Foreground="#363636"/>
 
-                    <Border BorderBrush="#ACB0AF" BorderThickness="1" Margin="170,7,170,7" CornerRadius="5">
-                        <Grid Margin="7 9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                    <local:IconTextBoxControl IconSource="/Resources/email_50x50.png" Placeholder="Email" Text="{Binding Email, Mode=TwoWay}" TabIndex="0"/>
 
-                            <Image Source="/Resources/email_50x50.png" Height="20" />
-                            <TextBox Style="{StaticResource EmailTextBox}" Text="{Binding Email}" VerticalContentAlignment="Center" />
-                        </Grid>
-                    </Border>
+                    <local:IconTextBoxControl IconSource="/Resources/username_50x50.png" Placeholder="Login" Text="{Binding UserLogin, Mode=TwoWay}" TabIndex="1" MaxLength="20"/>
 
-                    <Border BorderBrush="#ACB0AF" BorderThickness="1" Margin="170,7,170,7" CornerRadius="5">
-                        <Grid Margin="7 9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Image Source="/Resources/username_50x50.png" Height="20" />
-                            <TextBox Style="{StaticResource LoginTextBox}" Text="{Binding UserLogin}" />
-                        </Grid>
-                    </Border>
-
-                    <Border BorderBrush="#ACB0AF" BorderThickness="1" Margin="170,7,170,7" CornerRadius="5">
-                        <Grid Margin="7 9">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <Image Source="/Resources/lock_50x50.png" Height="20" />
-                            <TextBox Style="{StaticResource PasswordTextBox}" Text="{Binding Password}" />
-                        </Grid>
-                    </Border>
-
+                    <local:IconTextBoxControl IconSource="/Resources/lock_50x50.png" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" TabIndex="2" MaxLength="20"/>
+                    
                     <StackPanel Orientation="Horizontal" Width="340" Margin="0,15,0,0">
-                        <Button Content="Cancel" Style="{StaticResource RoundButton}" Command="{Binding OpenLoginUCCommand}" Foreground="#FF363636" />
-                        <Button Content="Create an account" Style="{StaticResource YellowRoundButton}" Command="{Binding CreateAccountCommand, Mode=OneWay}" />
+                        <Button Content="Cancel" Style="{StaticResource RoundButton}" Command="{Binding OpenLoginUCCommand}" Foreground="#FF363636" TabIndex="3"/>
+                        <Button Content="Create an account" Style="{StaticResource YellowRoundButton}" Command="{Binding CreateAccountCommand, Mode=OneWay}" TabIndex="4"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
