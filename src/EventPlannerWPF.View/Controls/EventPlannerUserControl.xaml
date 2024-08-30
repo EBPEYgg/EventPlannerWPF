@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:EventPlannerWPF.View.Controls"
              xmlns:vm="clr-namespace:EventPlannerWPF.ViewModel;assembly=EventPlannerWPF.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="680" d:DesignWidth="1000">
 
     <UserControl.DataContext>
         <vm:MainVM/>
@@ -19,7 +19,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!--пункт 1-->
+        <!-- пункт 1 -->
         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="90,40,0,0">
             <TextBlock Text="{Binding CurrentDate, StringFormat=dd}" Margin="0 0 10 0" FontSize="24"/>
             <TextBlock Text="{Binding CurrentDate, StringFormat=MMM}" Margin="0 3 0 0" FontSize="20"/>
@@ -27,11 +27,16 @@
 
         <Separator Background="Black" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="200" Width="260"/>
 
-        <!--пункт 2-->
+        <!-- пункт 2 -->
         <StackPanel Grid.Column="0" Margin="0,114,0,0">
-            <!-- Todo list -->
-            <Grid Height="250">
-                <ListBox Background="#FFF7F7F7" Padding="10 10 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="520"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Todo list -->
+                <ListBox Grid.Row="0" Background="#FFF7F7F7" Padding="10 10 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0,0,0,0">
                     <Border>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -56,24 +61,33 @@
                         </Grid>
                     </Border>
                 </ListBox>
-            </Grid>
 
-            <!-- Плашка пользователя -->
-            <Grid Width="150">
-                <Button VerticalAlignment="Top" Style="{StaticResource UserButton}" Height="40" Command="{Binding RotateImageCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding AboutUser}" VerticalAlignment="Center" Margin="0,0,0,3"/>
-                        <Image Source="/Resources/white_expand_arrow_32x32.png" Height="24" Margin="10,0,0,0" VerticalAlignment="Center">
-                            <Image.RenderTransform>
-                                <RotateTransform Angle="{Binding RotateAngle}" CenterX="12" CenterY="12"/>
-                            </Image.RenderTransform>
-                        </Image>
-                    </StackPanel>
-                </Button>
+                <!-- Плашка пользователя -->
+                <Menu Grid.Row="1" Height="30" Width="175" Background="#363435" VerticalAlignment="Bottom" Margin="0,0,0,15">
+                    <MenuItem Header="{Binding AboutUser}" Style="{StaticResource MenuItemWithDropdown}" Command="{Binding RotateImageCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Resources/services_50x50.png" Stretch="Uniform"/>
+                        </MenuItem.Icon>
 
-                <Button Content="Logout" Command="{Binding LogoutCommand}" Margin="0,51,0,0" VerticalAlignment="Top"/>
+                        <MenuItem Header="{Binding AboutUser}" Height="35" Width="175" Style="{StaticResource SubMenuItem}">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/about-us_50x50.png" Stretch="Uniform" />
+                            </MenuItem.Icon>
+                        </MenuItem>
 
-                <Button Content="Change user name" Margin="0,-67,0,128" Click="Button_Click"/>
+                        <MenuItem Header="Change username" Height="35" Width="175" Style="{StaticResource SubMenuItem}" Click="Button_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/edit-pencil_32x32.png" Stretch="Uniform" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem Header="Logout" Height="35" Width="175" Style="{StaticResource SubMenuItem}" Command="{Binding LogoutCommand}">
+                            <MenuItem.Icon>
+                                <Image Source="/Resources/logout_32x32.png" Stretch="Uniform" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
             </Grid>
         </StackPanel>
 
@@ -83,7 +97,7 @@
             </Separator.LayoutTransform>
         </Separator>
 
-        <!--пункт 3-->
+        <!-- пункт 3 -->
         <Grid Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -104,7 +118,7 @@
             <Button Grid.Column="2" Content="→" Command="{Binding NextMonthCommand}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}"/>
         </Grid>
 
-        <!--пункт 4-->
+        <!-- пункт 4 -->
         <Grid Grid.Column="2" Margin="0,114,0,0">
             <!-- Заголовки для дней недели -->
             <UniformGrid Rows="1" Columns="7" Margin="0,10,0,0">

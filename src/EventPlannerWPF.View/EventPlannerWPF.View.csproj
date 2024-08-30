@@ -9,12 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\about-us_50x50.png" />
     <None Remove="Resources\close_30x30.png" />
+    <None Remove="Resources\dropdown-arrow_50x50.png" />
+    <None Remove="Resources\edit-pencil_32x32.png" />
     <None Remove="Resources\email_50x50.png" />
     <None Remove="Resources\expand_arrow_32x32.png" />
+    <None Remove="Resources\home_50x50.png" />
     <None Remove="Resources\lock_50x50.png" />
+    <None Remove="Resources\logout_32x32.png" />
     <None Remove="Resources\minimize_30x30.png" />
+    <None Remove="Resources\portfolio_50x50.png" />
     <None Remove="Resources\register_photo_180x180.png" />
+    <None Remove="Resources\services_50x50.png" />
     <None Remove="Resources\username_50x50.png" />
     <None Remove="Resources\white_expand_arrow_32x32.png" />
   </ItemGroup>
@@ -32,11 +39,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\about-us_50x50.png" />
     <Resource Include="Resources\close_30x30.png" />
+    <Resource Include="Resources\edit-pencil_32x32.png" />
     <Resource Include="Resources\email_50x50.png" />
     <Resource Include="Resources\lock_50x50.png" />
+    <Resource Include="Resources\logout_32x32.png" />
     <Resource Include="Resources\minimize_30x30.png" />
     <Resource Include="Resources\register_photo_180x180.png" />
+    <Resource Include="Resources\services_50x50.png" />
     <Resource Include="Resources\username_50x50.png" />
     <Resource Include="Resources\white_expand_arrow_32x32.png" />
   </ItemGroup>
