@@ -8,8 +8,12 @@ namespace EventPlannerWPF.ViewModel
 {
     public partial class MainVM : ObservableObject
     {
+        #region Observable Property
         [ObservableProperty]
         private DateTime _currentDate = DateTime.Now;
+
+        [ObservableProperty]
+        private DateTime _todayDate = DateTime.Now;
 
         [ObservableProperty]
         private DayVM _selectedDay;
@@ -21,7 +25,14 @@ namespace EventPlannerWPF.ViewModel
         private int _rotateAngle;
 
         [ObservableProperty]
-        private bool _contextMenuIsOpen = false;
+        private string _previousMonth;
+
+        [ObservableProperty]
+        private string _currentMonth;
+
+        [ObservableProperty]
+        private string _nextMonth;
+        #endregion
 
         public User? CurrentUser => UserSession.Instance.CurrentUser;
 
@@ -30,14 +41,17 @@ namespace EventPlannerWPF.ViewModel
         public MainVM()
         {
             AboutUser = CurrentUser.Login;
+            PreviousMonth = CurrentDate.AddMonths(-1).ToString("MMMM");
+            CurrentMonth = CurrentDate.ToString("MMMM");
+            NextMonth = CurrentDate.AddMonths(1).ToString("MMMM");
             LoadCalendar();
         }
 
         private void LoadCalendar()
         {
             Days = new ObservableCollection<DayVM>();
-            DateTime firstDayOfMonth = new DateTime(_currentDate.Year, _currentDate.Month, 1);
-            int daysInMonth = DateTime.DaysInMonth(_currentDate.Year, _currentDate.Month);
+            DateTime firstDayOfMonth = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
+            int daysInMonth = DateTime.DaysInMonth(CurrentDate.Year, CurrentDate.Month);
 
             // Начало недели (понедельник) перед первым днем месяца
             int dayOfWeek = ((int)firstDayOfMonth.DayOfWeek + 6) % 7;
@@ -46,7 +60,7 @@ namespace EventPlannerWPF.ViewModel
             for (int i = 0; i < 35; i++)
             {
                 DateTime date = startDate.AddDays(i);
-                bool isCurrentMonth = date.Month == _currentDate.Month;
+                bool isCurrentMonth = date.Month == CurrentDate.Month;
 
                 Days.Add(new DayVM
                 {
@@ -54,7 +68,19 @@ namespace EventPlannerWPF.ViewModel
                     Opacity = isCurrentMonth ? 1.0 : 0.5,
                     Bold = isCurrentMonth ? "Demibold" : "Normal"
                 });
+                OnPropertyChanged(nameof(Days));
             }
+        }
+
+        [RelayCommand]
+        private void ShowSelectedMonth(string monthOffsetString)
+        {
+            var monthOffset = int.Parse(monthOffsetString);
+            CurrentDate = CurrentDate.AddMonths(monthOffset);
+            PreviousMonth = CurrentDate.AddMonths(-1).ToString("MMMM");
+            CurrentMonth = CurrentDate.ToString("MMMM");
+            NextMonth = CurrentDate.AddMonths(1).ToString("MMMM");
+            LoadCalendar();
         }
 
         [RelayCommand]
@@ -73,7 +99,6 @@ namespace EventPlannerWPF.ViewModel
         private void RotateImage()
         {
             RotateAngle += 180;
-            ContextMenuIsOpen = !ContextMenuIsOpen;
         }
 
         [RelayCommand]
