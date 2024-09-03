@@ -105,17 +105,15 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Стрелочка влево -->
-            <Button Grid.Column="0" Content="←" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Background="{x:Null}"/>
+            <Button Grid.Column="0" Content="←" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" HorizontalAlignment="Center"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,20,0">
-                <Button Content="{Binding PreviousMonth}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" VerticalAlignment="Center" FontSize="16" Opacity="0.6" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Background="{x:Null}" />
-                <Button Content="{Binding CurrentMonth}" Margin="20 -3 20 0" VerticalAlignment="Center" Foreground="#FF5800" FontSize="20" FontWeight="Bold" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Background="{x:Null}" />
-                <Button Content="{Binding NextMonth}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" VerticalAlignment="Center" FontSize="16" Opacity="0.6" BorderThickness="0,0,0,0" BorderBrush="{x:Null}" Background="{x:Null}" />
+                <Button Content="{Binding PreviousMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" FontSize="16" Opacity="0.6" />
+                <Button Content="{Binding CurrentMonth}" Style="{StaticResource CalendarButton}" Margin="20 -3 20 0" Foreground="#FF5800" FontSize="20" FontWeight="Bold" />
+                <Button Content="{Binding NextMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" FontSize="16" Opacity="0.6" />
             </StackPanel>
 
-            <!-- Стрелочка вправо -->
-            <Button Grid.Column="2" Content="→" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0,0,0,0" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <Button Grid.Column="2" Content="→" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" HorizontalAlignment="Center"/>
         </Grid>
 
         <!-- пункт 4 -->

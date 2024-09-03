@@ -152,6 +152,28 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="CalendarButton" TargetType="{x:Type Button}">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="BackgroundBorder" Background="Transparent" CornerRadius="5" Margin="-5"/>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackgroundBorder" Property="Background" Value="#e8e8e8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="PlaceholderTextBox" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type controls:PlaceholderTextBoxControl}">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Foreground" Value="#878787" />
@@ -244,10 +266,12 @@
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0.5"/>
             <Setter Property="Padding" Value="5"/>
-            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="CornerRadius" Value="60"/>
+            <Setter Property="Height" Value="75"/>
+            <Setter Property="Width" Value="75"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="LightGray"/>
+                    <Setter Property="Background" Value="#e64a5d"/>
                     <Setter Property="BorderBrush" Value="DarkGray"/>
                 </Trigger>
             </Style.Triggers>
@@ -282,7 +306,7 @@
                                        HorizontalAlignment="Right"
                                        Margin="0,0,10,0">
                                     <Image.RenderTransform>
-                                        <RotateTransform x:Name="DropdownIconRotate" Angle="0" />
+                                        <RotateTransform x:Name="DropdownIconRotate" Angle="180" />
                                     </Image.RenderTransform>
                                     <Image.RenderTransformOrigin>0.5,0.5</Image.RenderTransformOrigin>
                                 </Image>
@@ -291,7 +315,7 @@
                                 <Popup x:Name="PART_Popup"
                                        AllowsTransparency="True"
                                        IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                       Placement="Bottom"
+                                       Placement="Top"
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
 
                                     <Border x:Name="SubMenuBorder" Background="#484546" BorderBrush="#484546">
@@ -320,7 +344,7 @@
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="DropdownIconRotate" 
                                                              Storyboard.TargetProperty="Angle" 
-                                                             To="180" 
+                                                             To="0" 
                                                              Duration="0:0:0.2" />
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -330,7 +354,7 @@
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="DropdownIconRotate" 
                                                              Storyboard.TargetProperty="Angle" 
-                                                             To="0" 
+                                                             To="180" 
                                                              Duration="0:0:0.2" />
                                         </Storyboard>
                                     </BeginStoryboard>
