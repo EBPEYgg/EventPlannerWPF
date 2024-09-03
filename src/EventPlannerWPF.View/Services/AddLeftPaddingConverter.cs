@@ -5,7 +5,7 @@ using System.Windows;
 namespace EventPlannerWPF.View.Services
 {
     /// <summary>
-    /// Класс, описывающий конвертер значения для свойства Visibility.
+    /// Класс, описывающий конвертер значения для внутреннего отступа элемента слева.
     /// </summary>
     public class AddLeftPaddingConverter : IValueConverter
     {
