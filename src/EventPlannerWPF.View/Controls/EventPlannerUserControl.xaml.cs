@@ -20,5 +20,12 @@ namespace EventPlannerWPF.View.Controls
             ChangeUsernameWindow changeUsernameWindow = new();
             changeUsernameWindow.ShowDialog();
         }
+
+        //временное решение
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            AddNoteWindow addNoteWindow = new AddNoteWindow();
+            addNoteWindow.ShowDialog();
+        }
     }
 }

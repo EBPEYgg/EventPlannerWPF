@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EventPlannerWPF.View.Controls"
              xmlns:vm="clr-namespace:EventPlannerWPF.ViewModel;assembly=EventPlannerWPF.ViewModel"
              mc:Ignorable="d" 
@@ -19,7 +19,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- пункт 1 -->
+        <!-- Левая верхняя часть (текущая дата) -->
         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="90,40,0,0">
             <TextBlock Text="{Binding TodayDate, StringFormat=dd}" Margin="0 0 10 0" FontSize="24"/>
             <TextBlock Text="{Binding TodayDate, StringFormat=MMM}" Margin="0 3 0 0" FontSize="20"/>
@@ -27,7 +27,7 @@
 
         <Separator Background="Black" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="200" Width="260"/>
 
-        <!-- пункт 2 -->
+        <!-- Левая нижняя часть (заметки и настройки пользователя) -->
         <StackPanel Grid.Column="0" Margin="0,114,0,0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -35,36 +35,39 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Todo list -->
-                <ListBox Grid.Row="0" Background="#FFF7F7F7" Padding="10 10 0 0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0,0,0,0">
-                    <Border>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,50" >                    
+                    <ItemsControl ItemsSource="{Binding UserNotes}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="10 10 0 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox Padding="10,-2,0,0" Style="{StaticResource RoundCheckBox}" IsChecked="{Binding IsCompleted}" Command="{Binding DataContext.NoteIsCompletedCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" />
+                                        <TextBlock Text="{Binding StartDate, StringFormat='HH:mm'}" Style="{StaticResource StrikeThroughTextBlock}" FontStyle="Italic" />
+                                        <TextBlock Text=" -" Style="{StaticResource StrikeThroughTextBlock}" FontStyle="Italic" />
+                                        <TextBlock Text="{Binding EndDate, StringFormat=' HH:mm'}" Style="{StaticResource StrikeThroughTextBlock}" FontStyle="Italic" />
+                                        <!--<Button Command="{Binding DataContext.EditNoteCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Click="Button_Click_1" Margin="50,0,0,0" Height="16" Width="16" BorderBrush="{x:Null}" ToolTip="Edit note" >
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="/Resources/edit-black-pencil_32x32.png" Stretch="Uniform"/>
+                                            </Button.Background>
+                                        </Button>-->
+                                        <Button Command="{Binding DataContext.DeleteNoteCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Margin="130,0,0,0" Height="16" Width="16" BorderBrush="{x:Null}" ToolTip="Delete note" >
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="/Resources/close_30x30.png" Stretch="Uniform"/>
+                                            </Button.Background>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Description}" Style="{StaticResource StrikeThroughTextBlock}" Margin="26,0,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
-                            <CheckBox Content="10:00 - 12:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0" FontStyle="Italic"/>
-                            <TextBlock Text="My first task. Here description about my task." Grid.Row="1" HorizontalAlignment="Left" Margin="26,0,0,0" TextWrapping="Wrap"/>
-                        </Grid>
-                    </Border>
-
-                    <Border>
-                        <Grid Margin="0 10 0 0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <CheckBox Content="12:30 - 14:00" Grid.Row="0" HorizontalAlignment="Left" Padding="10,-2,0,0" IsChecked="True" FontStyle="Italic"/>
-                            <TextBlock Text="This is second task." Grid.Row="1" HorizontalAlignment="Left" Margin="26,0,0,0" TextWrapping="Wrap"/>
-                        </Grid>
-                    </Border>
-                </ListBox>
+                <Button Content="Добавить заметку" Click="Button_Click_1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="150" Margin="0,0,0,15" />
 
                 <!-- Плашка пользователя -->
                 <Menu Grid.Row="1" Height="30" Width="175" Background="#363435" VerticalAlignment="Bottom" Margin="0,0,0,15">
-                    <MenuItem Header="{Binding AboutUser}" Style="{StaticResource MenuItemWithDropdown}" Command="{Binding RotateImageCommand}">
+                    <MenuItem Header="{Binding AboutUser}" Style="{StaticResource MenuItemWithDropdown}">
                         <MenuItem.Icon>
                             <Image Source="/Resources/services_50x50.png" Stretch="Uniform"/>
                         </MenuItem.Icon>
@@ -97,7 +100,7 @@
             </Separator.LayoutTransform>
         </Separator>
 
-        <!-- пункт 3 -->
+        <!-- Правая верхняя часть (шапка календаря) -->
         <Grid Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -116,7 +119,7 @@
             <Button Grid.Column="2" Content="→" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" HorizontalAlignment="Center"/>
         </Grid>
 
-        <!-- пункт 4 -->
+        <!-- Правая нижняя часть (календарь) -->
         <Grid Grid.Column="2" Margin="0,114,0,0">
             <!-- Заголовки для дней недели -->
             <UniformGrid Rows="1" Columns="7" Margin="0,10,0,0">
@@ -138,9 +141,10 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource CalendarDayCellStyle}">
+                        <!--<Border Style="{StaticResource CalendarDayCell}">
                             <TextBlock Text="{Binding DisplayText}" Opacity="{Binding Opacity}" FontWeight="{Binding Bold}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
+                        </Border>-->
+                        <Button Style="{StaticResource CalendarDayButton}" Command="{Binding DataContext.SelectDayCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Content="{Binding DisplayText}" Opacity="{Binding Opacity}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

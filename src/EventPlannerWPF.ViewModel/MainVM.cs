@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EventPlannerWPF.Model.Classes;
+using EventPlannerWPF.Model.Data;
 using EventPlannerWPF.ViewModel.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace EventPlannerWPF.ViewModel
 {
@@ -22,9 +25,6 @@ namespace EventPlannerWPF.ViewModel
         private string _aboutUser;
 
         [ObservableProperty]
-        private int _rotateAngle;
-
-        [ObservableProperty]
         private string _previousMonth;
 
         [ObservableProperty]
@@ -32,11 +32,33 @@ namespace EventPlannerWPF.ViewModel
 
         [ObservableProperty]
         private string _nextMonth;
+
+        /// <summary>
+        /// Список с заметками пользователя.
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<Note> _userNotes = new ObservableCollection<Note>();
+
+        [ObservableProperty]
+        private string _noteDescription;
+
+        [ObservableProperty]
+        private DateTime _noteEndDate;
+
+        [ObservableProperty]
+        private DateTime _noteStartDate;
         #endregion
 
+        #region Property
         public User? CurrentUser => UserSession.Instance.CurrentUser;
 
         public ObservableCollection<DayVM> Days { get; private set; }
+        #endregion
+
+        /// <summary>
+        /// Контекст данных для БД.
+        /// </summary>
+        private readonly EventPlannerContext db;
 
         public MainVM()
         {
@@ -44,9 +66,15 @@ namespace EventPlannerWPF.ViewModel
             PreviousMonth = CurrentDate.AddMonths(-1).ToString("MMMM");
             CurrentMonth = CurrentDate.ToString("MMMM");
             NextMonth = CurrentDate.AddMonths(1).ToString("MMMM");
+            db = new EventPlannerContext();
             LoadCalendar();
+            SelectDayCommand.Execute(Days.FirstOrDefault(day => day.Date == DateTime.Now.Date));
         }
 
+        #region Methods
+        /// <summary>
+        /// Метод, который создает сетку календаря на выбранный месяц. 
+        /// </summary>
         private void LoadCalendar()
         {
             Days = new ObservableCollection<DayVM>();
@@ -66,47 +94,179 @@ namespace EventPlannerWPF.ViewModel
                 {
                     DisplayText = date.Day.ToString(),
                     Opacity = isCurrentMonth ? 1.0 : 0.5,
-                    Bold = isCurrentMonth ? "Demibold" : "Normal"
+                    Bold = isCurrentMonth ? "Demibold" : "Normal",
+                    Date = date
                 });
                 OnPropertyChanged(nameof(Days));
             }
         }
 
+        /// <summary>
+        /// Метод, который загружает заметки текущего пользователя 
+        /// для выбранного пользователем дня.
+        /// </summary>
+        private async Task LoadUserNotesForSelectedDayAsync()
+        {
+            if (CurrentUser == null || SelectedDay == null)
+            {
+                return;
+            }
+
+            UserNotes.Clear();
+            var notesForSelectedDay = await db.Note
+                .Where(note => note.User.Id == CurrentUser.Id && note.StartDate.Day == SelectedDay.Date.Day)
+                .OrderBy(note => note.EndDate)
+                .ToListAsync();
+
+            foreach (var note in notesForSelectedDay)
+            {
+                UserNotes.Add(note);
+            }
+        }
+
+        /// <summary>
+        /// Добавление новой заметки в <see cref="UserNotes"/> 
+        /// с учетом сортировки по <see cref="Note.EndDate"/>.
+        /// </summary>
+        /// <param name="newNote">Заметка.</param>
+        private void AddNoteSorted(Note newNote)
+        {
+            int index = 0;
+            while (index < UserNotes.Count && UserNotes[index].EndDate <= newNote.EndDate)
+            {
+                index++;
+            }
+            UserNotes.Insert(index, newNote);
+        }
+        #endregion
+
+        #region Commands
+        /// <summary>
+        /// Команда, которая позволяет пользователю 
+        /// изменять выбранный в календаре месяц.
+        /// </summary>
+        /// <param name="monthOffsetString">На сколько месяцев идет смещение.</param>
         [RelayCommand]
         private void ShowSelectedMonth(string monthOffsetString)
         {
+            UserNotes.Clear();
             var monthOffset = int.Parse(monthOffsetString);
             CurrentDate = CurrentDate.AddMonths(monthOffset);
             PreviousMonth = CurrentDate.AddMonths(-1).ToString("MMMM");
             CurrentMonth = CurrentDate.ToString("MMMM");
             NextMonth = CurrentDate.AddMonths(1).ToString("MMMM");
             LoadCalendar();
+
+            // при возврате пользователем на текущий месяц выбирается сегодняшний день
+            if (CurrentDate.Month == TodayDate.Month)
+            {
+                SelectDayCommand.Execute(Days.FirstOrDefault(day => day.Date == DateTime.Now.Date));
+            }
         }
 
+        /// <summary>
+        /// Команда, которая позволяет пользователю выделить 
+        /// день календаря и соответствующую ячейку в календаре.
+        /// </summary>
+        /// <param name="day">День календаря.</param>
         [RelayCommand]
-        private void SelectDay(DayVM day)
+        private async Task SelectDayAsync(DayVM day)
         {
             if (SelectedDay != null)
+            {
                 SelectedDay.IsSelected = false;
+            }
 
             SelectedDay = day;
 
             if (SelectedDay != null)
+            {
                 SelectedDay.IsSelected = true;
+                await LoadUserNotesForSelectedDayAsync();
+            }
         }
 
+        /// <summary>
+        /// Команда, позволяющая добавить новую заметку 
+        /// для текущего пользователя в выбранный пользователем день.
+        /// </summary>
         [RelayCommand]
-        private void RotateImage()
+        private async Task AddNewNoteAsync()
         {
-            RotateAngle += 180;
+            if (CurrentUser == null || SelectedDay == null)
+            {
+                return;
+            }
+
+            db.Entry(CurrentUser).State = EntityState.Unchanged;
+
+            var newNote = new Note
+            {
+                StartDate = NoteStartDate,
+                EndDate = NoteEndDate,
+                Description = NoteDescription,
+                IsCompleted = false,
+                User = CurrentUser
+            };
+
+            db.Note.Add(newNote);
+            await db.SaveChangesAsync();
+            AddNoteSorted(newNote);
+            await LoadUserNotesForSelectedDayAsync();
+        }
+
+        /// <summary>
+        /// Команда, которая переключает состояние завершенности выполнения заметки.
+        /// </summary>
+        /// <param name="note">Заметка.</param>
+        [RelayCommand]
+        private async Task NoteIsCompleted(Note note)
+        {
+            if (note == null)
+            {
+                return;
+            }
+
+            db.Note.Update(note);
+            await db.SaveChangesAsync();
         }
 
         [RelayCommand]
-        private void Logout()
+        private void EditNote(Note note)
+        {
+            //NoteStartDate = note.StartDate;
+            //NoteEndDate = note.EndDate;
+            //NoteDescription = note.Description;
+        }
+
+        /// <summary>
+        /// Команда, которая удаляет выбранную заметку.
+        /// </summary>
+        /// <param name="note">Заметка.</param>
+        [RelayCommand]
+        private async Task DeleteNote(Note note)
+        {
+            if (note == null)
+            {
+                return;
+            }
+
+            db.Note.Remove(note);
+            await db.SaveChangesAsync();
+            UserNotes.Remove(note);
+        }
+
+        /// <summary>
+        /// Команда, которая меняет UC на авторизацию 
+        /// и очищает данные о текущем пользователе.
+        /// </summary>
+        [RelayCommand]
+        private static void Logout()
         {
             UserSession.Instance.ClearUser();
             NavigationService.NavigateTo<LoginVM>();
         }
+        #endregion
 
         public partial class DayVM : ObservableObject
         {
@@ -116,14 +276,10 @@ namespace EventPlannerWPF.ViewModel
 
             public string Bold { get; set; }
 
+            public DateTime Date { get; set; }
+
             [ObservableProperty]
             private bool _isSelected;
-
-            [RelayCommand]
-            private void Select()
-            {
-                // Вызовем метод ViewModel для выбора
-            }
         }
     }
 }

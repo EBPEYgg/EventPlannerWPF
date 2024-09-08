@@ -10,8 +10,10 @@
 
   <ItemGroup>
     <None Remove="Resources\about-us_50x50.png" />
+    <None Remove="Resources\checkmark_32x32.png" />
     <None Remove="Resources\close_30x30.png" />
     <None Remove="Resources\dropdown-arrow_50x50.png" />
+    <None Remove="Resources\edit-black-pencil_32x32.png" />
     <None Remove="Resources\edit-pencil_32x32.png" />
     <None Remove="Resources\email_50x50.png" />
     <None Remove="Resources\expand_arrow_32x32.png" />
@@ -40,7 +42,9 @@
 
   <ItemGroup>
     <Resource Include="Resources\about-us_50x50.png" />
+    <Resource Include="Resources\checkmark_32x32.png" />
     <Resource Include="Resources\close_30x30.png" />
+    <Resource Include="Resources\edit-black-pencil_32x32.png" />
     <Resource Include="Resources\edit-pencil_32x32.png" />
     <Resource Include="Resources\email_50x50.png" />
     <Resource Include="Resources\lock_50x50.png" />
