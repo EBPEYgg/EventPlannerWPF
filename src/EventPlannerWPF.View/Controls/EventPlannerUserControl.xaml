@@ -28,15 +28,16 @@
         <Separator Background="Black" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="200" Width="260"/>
 
         <!-- Левая нижняя часть (заметки и настройки пользователя) -->
-        <StackPanel Grid.Column="0" Margin="0,114,0,0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="520"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Margin="0,114,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,50" >                    
-                    <ItemsControl ItemsSource="{Binding UserNotes}" >
+            <!-- Todo list -->
+            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Margin="0,0,0,15" MaxHeight="520">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding UserNotes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="10 10 0 0">
@@ -45,12 +46,7 @@
                                         <TextBlock Text="{Binding StartDate, StringFormat='HH:mm'}" Style="{StaticResource StrikeThroughTextBlock}" FontStyle="Italic" />
                                         <TextBlock Text=" -" Style="{StaticResource StrikeThroughTextBlock}" FontStyle="Italic" />
                                         <TextBlock Text="{Binding EndDate, StringFormat=' HH:mm'}" Style="{StaticResource StrikeThroughTextBlock}" FontStyle="Italic" />
-                                        <!--<Button Command="{Binding DataContext.EditNoteCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Click="Button_Click_1" Margin="50,0,0,0" Height="16" Width="16" BorderBrush="{x:Null}" ToolTip="Edit note" >
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="/Resources/edit-black-pencil_32x32.png" Stretch="Uniform"/>
-                                            </Button.Background>
-                                        </Button>-->
-                                        <Button Command="{Binding DataContext.DeleteNoteCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Margin="130,0,0,0" Height="16" Width="16" BorderBrush="{x:Null}" ToolTip="Delete note" >
+                                        <Button Style="{StaticResource NoteButton}" Command="{Binding DataContext.DeleteNoteCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Margin="130,0,0,0" Height="18" Width="18" BorderBrush="{x:Null}" ToolTip="Delete note" >
                                             <Button.Background>
                                                 <ImageBrush ImageSource="/Resources/close_30x30.png" Stretch="Uniform"/>
                                             </Button.Background>
@@ -61,38 +57,42 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </ScrollViewer>
 
-                <Button Content="Добавить заметку" Click="Button_Click_1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="150" Margin="0,0,0,15" />
+                    <Button Style="{StaticResource NoteButton}" BorderBrush="{x:Null}" Click="Button_Click_1" HorizontalAlignment="Center" Width="35" Height="35" Margin="0,15,0,0" ToolTip="Добавить заметку">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Resources/plus-circle_50x50.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
 
-                <!-- Плашка пользователя -->
-                <Menu Grid.Row="1" Height="30" Width="175" Background="#363435" VerticalAlignment="Bottom" Margin="0,0,0,15">
-                    <MenuItem Header="{Binding AboutUser}" Style="{StaticResource MenuItemWithDropdown}">
+            <!-- Плашка пользователя -->
+            <Menu Grid.Row="1" Height="30" Width="175" Background="#363435" VerticalAlignment="Bottom" Margin="0,0,0,15">
+                <MenuItem Header="{Binding AboutUser}" Style="{StaticResource MenuItemWithDropdown}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/services_50x50.png" Stretch="Uniform"/>
+                    </MenuItem.Icon>
+
+                    <MenuItem Header="{Binding AboutUser}" Height="35" Width="175" Style="{StaticResource SubMenuItem}">
                         <MenuItem.Icon>
-                            <Image Source="/Resources/services_50x50.png" Stretch="Uniform"/>
+                            <Image Source="/Resources/about-us_50x50.png" Stretch="Uniform" />
                         </MenuItem.Icon>
-
-                        <MenuItem Header="{Binding AboutUser}" Height="35" Width="175" Style="{StaticResource SubMenuItem}">
-                            <MenuItem.Icon>
-                                <Image Source="/Resources/about-us_50x50.png" Stretch="Uniform" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <MenuItem Header="Change username" Height="35" Width="175" Style="{StaticResource SubMenuItem}" Click="Button_Click">
-                            <MenuItem.Icon>
-                                <Image Source="/Resources/edit-pencil_32x32.png" Stretch="Uniform" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <MenuItem Header="Logout" Height="35" Width="175" Style="{StaticResource SubMenuItem}" Command="{Binding LogoutCommand}">
-                            <MenuItem.Icon>
-                                <Image Source="/Resources/logout_32x32.png" Stretch="Uniform" />
-                            </MenuItem.Icon>
-                        </MenuItem>
                     </MenuItem>
-                </Menu>
-            </Grid>
-        </StackPanel>
+
+                    <MenuItem Header="Change username" Height="35" Width="175" Style="{StaticResource SubMenuItem}" Click="Button_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/Resources/edit-pencil_32x32.png" Stretch="Uniform" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Header="Logout" Height="35" Width="175" Style="{StaticResource SubMenuItem}" Command="{Binding LogoutCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Resources/logout_32x32.png" Stretch="Uniform" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </Grid>
 
         <Separator Background="Black" Grid.Column="1">
             <Separator.LayoutTransform>
