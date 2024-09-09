@@ -5,7 +5,6 @@ using EventPlannerWPF.Model.Data;
 using EventPlannerWPF.ViewModel.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace EventPlannerWPF.ViewModel
 {
@@ -212,7 +211,6 @@ namespace EventPlannerWPF.ViewModel
             db.Note.Add(newNote);
             await db.SaveChangesAsync();
             AddNoteSorted(newNote);
-            await LoadUserNotesForSelectedDayAsync();
         }
 
         /// <summary>
