@@ -27,12 +27,37 @@ namespace EventPlannerWPF.ViewModel
         /// </summary>
         [ObservableProperty]
         private string _errorMessage;
+
+        /// <summary>
+        /// Путь до изображения с глазом.
+        /// </summary>
+        [ObservableProperty]
+        private string _eyePath = _eyeIsOpenPath;
         #endregion
+
+        #region Fields
+        public string DisplayPassword => _isEyeClose ? PasswordText : new string('•', PasswordText?.Length ?? 0);
+
+        /// <summary>
+        /// Флаг. Нажата ли кнопка с глазом.
+        /// </summary>
+        private bool _isEyeClose = false;
+
+        /// <summary>
+        /// Путь до изображения с закрытым глазом.
+        /// </summary>
+        private static string _eyeIsClosePath = "/Resources/eye-off-gray_48x48.png";
+
+        /// <summary>
+        /// Путь до изображения с открытым глазом.
+        /// </summary>
+        private static string _eyeIsOpenPath = "/Resources/eye-gray_48x48.png";
 
         /// <summary>
         /// Контекст данных для БД.
         /// </summary>
         private readonly EventPlannerContext db;
+        #endregion
 
         public LoginVM()
         {
@@ -68,6 +93,14 @@ namespace EventPlannerWPF.ViewModel
         {
             ClearTextBoxes();
             NavigationService.NavigateTo<RegisterVM>();
+        }
+
+        [RelayCommand]
+        private void ShowPassword()
+        {
+            EyePath = _isEyeClose ? _eyeIsOpenPath : _eyeIsClosePath;
+            _isEyeClose = !_isEyeClose;
+            OnPropertyChanged(nameof(DisplayPassword));
         }
 
         [RelayCommand]

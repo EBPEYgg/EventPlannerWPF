@@ -9,7 +9,7 @@ namespace EventPlannerWPF.View.Controls
     public partial class IconTextBoxControl : UserControl
     {
         public static readonly DependencyProperty IconSourceProperty =
-        DependencyProperty.Register("IconSource", typeof(string), typeof(IconTextBoxControl));
+            DependencyProperty.Register("IconSource", typeof(string), typeof(IconTextBoxControl));
 
         public static readonly DependencyProperty PlaceholderProperty =
             DependencyProperty.Register("Placeholder", typeof(string), typeof(IconTextBoxControl));
@@ -19,6 +19,9 @@ namespace EventPlannerWPF.View.Controls
 
         public static readonly DependencyProperty MaxLengthProperty =
             DependencyProperty.Register("MaxLength", typeof(int), typeof(IconTextBoxControl));
+
+        public static readonly DependencyProperty IconShowPasswordSourceProperty =
+            DependencyProperty.Register("IconShowPasswordSource", typeof(string), typeof(IconTextBoxControl));
 
         public IconTextBoxControl()
         {
@@ -47,6 +50,12 @@ namespace EventPlannerWPF.View.Controls
         {
             get { return (int)GetValue(MaxLengthProperty); }
             set { SetValue(MaxLengthProperty, value); }
+        }
+
+        public string IconShowPasswordSource
+        {
+            get { return (string)GetValue(IconShowPasswordSourceProperty); }
+            set { SetValue(IconShowPasswordSourceProperty, value); }
         }
     }
 }

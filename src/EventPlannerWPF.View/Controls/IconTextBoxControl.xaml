@@ -3,23 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:view="clr-namespace:EventPlannerWPF.View"
              xmlns:local="clr-namespace:EventPlannerWPF.View.Controls"
+             xmlns:vm="clr-namespace:EventPlannerWPF.ViewModel;assembly=EventPlannerWPF.ViewModel"
              x:Name="iconTextBoxControl">
+    <UserControl.DataContext>
+        <vm:LoginVM/>
+    </UserControl.DataContext>
+
     <Border BorderBrush="#ACB0AF" BorderThickness="1" Margin="170,7,170,7" CornerRadius="5">
         <Grid Margin="7 9">
             <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
             <Image Source="{Binding IconSource, ElementName=iconTextBoxControl}" Height="20" />
             <local:PlaceholderTextBoxControl
-                Style="{StaticResource PlaceholderTextBox}"
-                Grid.Column="1"
-                Placeholder="{Binding Placeholder, ElementName=iconTextBoxControl}"
-                Text="{Binding Text, ElementName=iconTextBoxControl}"
-                TabIndex="{Binding TabIndex, ElementName=iconTextBoxControl}"
-                Margin="10,0,0,0"
-                MaxLength="{Binding MaxLength, ElementName=iconTextBoxControl}"/>
+                                Style="{StaticResource PlaceholderTextBox}"
+                                Grid.Column="1"
+                                Placeholder="{Binding Placeholder, ElementName=iconTextBoxControl}"
+                                Text="{Binding DisplayPassword, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                TabIndex="{Binding TabIndex, ElementName=iconTextBoxControl}"
+                                Margin="10,0,0,0"
+                                MaxLength="{Binding MaxLength, ElementName=iconTextBoxControl}"/>
+            <Button Style="{StaticResource NoteButton}" Grid.Column="2" Height="20" Width="20" BorderBrush="{x:Null}" Command="{Binding ShowPasswordCommand}" Visibility="{Binding IconShowPasswordSource, Converter={StaticResource BoolToVisibilityConverter}}" Background="{x:Null}">
+                <Image Source="{Binding IconShowPasswordSource, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            </Button>
         </Grid>
     </Border>
 </UserControl>
