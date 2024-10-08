@@ -6,6 +6,9 @@
              xmlns:services="clr-namespace:EventPlannerWPF.View.Services">
     <Application.Resources>
 
+        <services:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <services:AddLeftPaddingConverter x:Key="AddLeftPaddingConverter" />
+
         <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
             <Setter Property="MinWidth" Value="5" />
             <Setter Property="Width" Value="5" />
@@ -245,10 +248,6 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type controls:PlaceholderTextBoxControl}">
-                        <ControlTemplate.Resources>
-                            <services:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-                            <services:AddLeftPaddingConverter x:Key="AddLeftPaddingConverter" />
-                        </ControlTemplate.Resources>
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <ScrollViewer x:Name="PART_ContentHost" />
