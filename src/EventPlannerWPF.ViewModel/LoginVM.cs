@@ -36,8 +36,6 @@ namespace EventPlannerWPF.ViewModel
         #endregion
 
         #region Fields
-        public string DisplayPassword => _isEyeClose ? PasswordText : new string('•', PasswordText?.Length ?? 0);
-
         /// <summary>
         /// Флаг. Нажата ли кнопка с глазом.
         /// </summary>
@@ -100,7 +98,6 @@ namespace EventPlannerWPF.ViewModel
         {
             EyePath = _isEyeClose ? _eyeIsOpenPath : _eyeIsClosePath;
             _isEyeClose = !_isEyeClose;
-            OnPropertyChanged(nameof(DisplayPassword));
         }
 
         [RelayCommand]
