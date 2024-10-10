@@ -45,7 +45,7 @@
 
                     <local:IconTextBoxControl IconSource="/Resources/username_50x50.png" Placeholder="Login" Text="{Binding UserLogin, Mode=TwoWay}" TabIndex="1" MaxLength="20"/>
 
-                    <local:IconTextBoxControl IconSource="/Resources/lock_50x50.png" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" TabIndex="2" MaxLength="20"/>
+                    <local:IconTextBoxControl IconSource="/Resources/lock_50x50.png" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" TabIndex="2" MaxLength="20" IsCopyEnabled="False"/>
                     
                     <StackPanel Orientation="Horizontal" Width="340" Margin="0,15,0,0">
                         <Button Content="Cancel" Style="{StaticResource RoundButton}" Command="{Binding OpenLoginUCCommand}" Foreground="#FF363636" TabIndex="3"/>

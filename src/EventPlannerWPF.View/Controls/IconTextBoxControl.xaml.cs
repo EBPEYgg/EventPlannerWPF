@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EventPlannerWPF.View.Controls
 {
@@ -23,9 +24,24 @@ namespace EventPlannerWPF.View.Controls
         public static readonly DependencyProperty IconShowPasswordSourceProperty =
             DependencyProperty.Register("IconShowPasswordSource", typeof(string), typeof(IconTextBoxControl));
 
+        public static readonly DependencyProperty IsCopyEnabledProperty =
+            DependencyProperty.Register("IsCopyEnabled", typeof(bool), typeof(IconTextBoxControl), new PropertyMetadata(true));
+
         public IconTextBoxControl()
         {
             InitializeComponent();
+            this.AddHandler(TextBox.PreviewKeyDownEvent, new KeyEventHandler(OnPreviewKeyDown), true);
+        }
+
+        private void OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.C && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                if (!IsCopyEnabled)
+                {
+                    e.Handled = true;
+                }
+            }
         }
 
         public string IconSource
@@ -56,6 +72,12 @@ namespace EventPlannerWPF.View.Controls
         {
             get { return (string)GetValue(IconShowPasswordSourceProperty); }
             set { SetValue(IconShowPasswordSourceProperty, value); }
+        }
+
+        public bool IsCopyEnabled
+        {
+            get { return (bool)GetValue(IsCopyEnabledProperty); }
+            set { SetValue(IsCopyEnabledProperty, value); }
         }
     }
 }
