@@ -113,7 +113,7 @@ namespace EventPlannerWPF.ViewModel
 
             UserNotes.Clear();
             var notesForSelectedDay = await db.Note
-                .Where(note => note.User.Id == CurrentUser.Id && note.StartDate.Day == SelectedDay.Date.Day)
+                .Where(note => note.User.Id == CurrentUser.Id && note.StartDate.Date == SelectedDay.Date)
                 .OrderBy(note => note.EndDate)
                 .ToListAsync();
 
