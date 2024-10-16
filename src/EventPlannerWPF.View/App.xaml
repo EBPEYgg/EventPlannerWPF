@@ -374,7 +374,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type MenuItem}">
-                        <Border x:Name="border" Background="#363435" BorderThickness="0" Height="30" Width="175">
+                        <Border x:Name="border" Background="#ebebeb" BorderThickness="0" Height="30" Width="175" CornerRadius="10">
                             <Grid>
                                 <!-- Icon -->
                                 <ContentPresenter ContentSource="Icon"
@@ -386,15 +386,15 @@
 
                                 <!-- Text -->
                                 <ContentPresenter ContentSource="Header"
-                                                  TextBlock.Foreground="#D3D7DC"
-                                                  TextBlock.FontFamily="Rubik Medium"
+                                                  TextBlock.Foreground="#0f0f0f"
+                                                  TextBlock.FontFamily="Cambria"
                                                   TextBlock.FontSize="15"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
-                                                  Margin="35,0,0,0" />
+                                                  Margin="36,0,0,0" />
 
                                 <!-- Dropdown Icon -->
-                                <Image Source="/Resources/white_expand_arrow_32x32.png"
+                                <Image Source="/Resources/not_white_expand_arrow_32x32.png"
                                        Height="24"
                                        HorizontalAlignment="Right"
                                        Margin="0,0,10,0">
@@ -411,7 +411,7 @@
                                        Placement="Top"
                                        PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
 
-                                    <Border x:Name="SubMenuBorder" Background="#484546" BorderBrush="#484546">
+                                    <Border x:Name="SubMenuBorder" Background="White" BorderBrush="White">
                                         <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" />
@@ -428,8 +428,8 @@
                                 <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None" />
                             </Trigger>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#524E4F" />
-                                <Setter Property="BorderBrush" TargetName="border" Value="#524E4F" />
+                                <Setter Property="Background" TargetName="border" Value="#cecece" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="#cecece" />
                             </Trigger>
                             <Trigger Property="IsSubmenuOpen" Value="True">
                                 <Trigger.EnterActions>
@@ -463,7 +463,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type MenuItem}">
-                        <Border x:Name="border" Background="#363435" BorderThickness="0">
+                        <Border x:Name="border" Background="#ebebeb" BorderThickness="0" CornerRadius="10" Margin="0,0,0,5">
                             <Grid>
                                 <!--// Icon //-->
                                 <ContentPresenter ContentSource="Icon"
@@ -472,29 +472,21 @@
                                                   Height="18"
                                                   Width="18"
                                                   Margin="8,0,0,0" />
+
                                 <!--// Text //-->
                                 <ContentPresenter ContentSource="Header"
-                                                  TextBlock.Foreground="#D3D7DC"
-                                                  TextBlock.FontFamily="Rubik Medium"
+                                                  TextBlock.Foreground="#0f0f0f"
+                                                  TextBlock.FontFamily="Cambria"
                                                   TextBlock.FontSize="15"
                                                   HorizontalAlignment="Left"
                                                   VerticalAlignment="Center"
                                                   Margin="35,0,0,0" />
-
-                                <Grid x:Name="Highlighter"
-                                      Height="35"
-                                      Width="2"
-                                      Background="#FFFFFF"
-                                      HorizontalAlignment="Left"
-                                      VerticalAlignment="Center"
-                                      Visibility="Collapsed" />
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#3E3C3D" />
-                                <Setter Property="BorderBrush" TargetName="border" Value="#3E3C3D" />
-                                <Setter Property="Visibility" TargetName="Highlighter" Value="Visible" />
+                                <Setter Property="Background" TargetName="border" Value="#cecece" />
+                                <Setter Property="BorderBrush" TargetName="border" Value="#cecece" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

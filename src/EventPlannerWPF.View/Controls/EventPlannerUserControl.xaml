@@ -12,7 +12,7 @@
         <vm:MainVM/>
     </UserControl.DataContext>
 
-    <Grid Background="#FFF7F7F7">
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="260"/>
             <ColumnDefinition Width="2"/>
@@ -67,7 +67,7 @@
             </ScrollViewer>
 
             <!-- Плашка пользователя -->
-            <Menu Grid.Row="1" Height="30" Width="175" Background="#363435" VerticalAlignment="Bottom" Margin="0,0,0,15">
+            <Menu Grid.Row="1" Height="30" Width="175" Background="Transparent" VerticalAlignment="Bottom" Margin="0,0,0,15">
                 <MenuItem Header="{Binding AboutUser}" Style="{StaticResource MenuItemWithDropdown}">
                     <MenuItem.Icon>
                         <Image Source="/Resources/services_50x50.png" Stretch="Uniform"/>
@@ -111,9 +111,9 @@
             <Button Grid.Column="0" Content="←" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" HorizontalAlignment="Center"/>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,20,0">
-                <Button Content="{Binding PreviousMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" FontSize="16" Opacity="0.6" />
+                        <Button Content="{Binding PreviousMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" FontSize="16" Opacity="0.5" />
                 <Button Content="{Binding CurrentMonth}" Style="{StaticResource CalendarButton}" Margin="20 -3 20 0" Foreground="#FF5800" FontSize="20" FontWeight="Bold" />
-                <Button Content="{Binding NextMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" FontSize="16" Opacity="0.6" />
+                        <Button Content="{Binding NextMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" FontSize="16" Opacity="0.5" />
             </StackPanel>
 
             <Button Grid.Column="2" Content="→" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" HorizontalAlignment="Center"/>
