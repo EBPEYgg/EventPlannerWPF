@@ -201,7 +201,7 @@ namespace EventPlannerWPF.ViewModel
 
             var newNote = new Note
             {
-                StartDate = NoteStartDate,
+                StartDate = DateTime.Today.Add(new TimeSpan(0, 0, 0)),
                 EndDate = NoteEndDate,
                 Description = NoteDescription,
                 IsCompleted = false,
