@@ -74,7 +74,7 @@ namespace EventPlannerWPF.ViewModel
         /// <summary>
         /// Метод, который создает сетку календаря на выбранный месяц. 
         /// </summary>
-        private void LoadCalendar()
+        private async Task LoadCalendar()
         {
             Days = new ObservableCollection<DayVM>();
             DateTime firstDayOfMonth = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
@@ -88,14 +88,18 @@ namespace EventPlannerWPF.ViewModel
             {
                 DateTime date = startDate.AddDays(i);
                 bool isCurrentMonth = date.Month == CurrentDate.Month;
+                var hasNotes = await db.Note
+                    .AnyAsync(note => note.User.Id == CurrentUser.Id && note.StartDate.Date == date);
 
                 Days.Add(new DayVM
                 {
                     DisplayText = date.Day.ToString(),
                     Opacity = isCurrentMonth ? 1.0 : 0.5,
                     Bold = isCurrentMonth ? "Demibold" : "Normal",
-                    Date = date
+                    Date = date,
+                    HasNotes = hasNotes
                 });
+            }
                 OnPropertyChanged(nameof(Days));
             }
         }
@@ -278,6 +282,9 @@ namespace EventPlannerWPF.ViewModel
 
             [ObservableProperty]
             private bool _isSelected;
+
+            [ObservableProperty]
+            private bool _hasNotes;
         }
     }
 }
