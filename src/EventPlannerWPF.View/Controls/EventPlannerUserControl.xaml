@@ -101,22 +101,35 @@
         </Separator>
 
         <!-- Правая верхняя часть (шапка календаря) -->
-        <Grid Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,30,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Button Grid.Column="0" Content="←" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" HorizontalAlignment="Center"/>
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Button Content="{Binding CurrentDate.Year}" Click="Button_Click_2" Style="{StaticResource CalendarButton}" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold"/>
+                </Grid>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,20,0">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="←" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" HorizontalAlignment="Center"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,20,0">
                         <Button Content="{Binding PreviousMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="-1" FontSize="16" Opacity="0.5" />
-                <Button Content="{Binding CurrentMonth}" Style="{StaticResource CalendarButton}" Margin="20 -3 20 0" Foreground="#FF5800" FontSize="20" FontWeight="Bold" />
+                        <Button Content="{Binding CurrentMonth}" Style="{StaticResource CalendarButton}" Margin="20 -3 20 0" Foreground="#FF5800" FontSize="20" FontWeight="Bold" />
                         <Button Content="{Binding NextMonth}" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" FontSize="16" Opacity="0.5" />
-            </StackPanel>
+                    </StackPanel>
 
-            <Button Grid.Column="2" Content="→" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="2" Content="→" Style="{StaticResource CalendarButton}" Command="{Binding ShowSelectedMonthCommand}" CommandParameter="1" HorizontalAlignment="Center"/>
+                </Grid>
+            </Grid>
         </Grid>
 
         <!-- Правая нижняя часть (календарь) -->
@@ -142,7 +155,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                        <Button Style="{StaticResource CalendarDayButton}" Command="{Binding DataContext.SelectDayCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Content="{Binding DisplayText}" Opacity="{Binding Opacity}"/>
+                            <Button Style="{StaticResource CalendarDayButton}" Command="{Binding DataContext.SelectDayCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Content="{Binding DisplayText}" Opacity="{Binding Opacity}"/>
                             <Rectangle Margin="0,-40,0,0" Fill="#0075ff" Height="2" Width="15" Visibility="{Binding HasNotes, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </DataTemplate>

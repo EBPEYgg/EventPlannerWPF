@@ -27,5 +27,12 @@ namespace EventPlannerWPF.View.Controls
             AddNoteWindow addNoteWindow = new AddNoteWindow();
             addNoteWindow.ShowDialog();
         }
+
+        //временное решение
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            SelectYearWindow selectYearWindow = new SelectYearWindow();
+            selectYearWindow.ShowDialog();
+        }
     }
 }

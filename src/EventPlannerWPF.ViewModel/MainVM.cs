@@ -23,10 +23,16 @@ namespace EventPlannerWPF.ViewModel
         [ObservableProperty]
         private CalendarDay _selectedDay;
 
+        /// <summary>
+        /// Выбранный пользователем год. По умолчанию текущий год.
+        /// </summary>
         [ObservableProperty]
+        private int _selectedYear = DateTime.Now.Year;
+
         /// <summary>
         /// Логин пользователя.
         /// </summary>
+        [ObservableProperty]
         private string _aboutUser;
 
         [ObservableProperty]
@@ -58,6 +64,8 @@ namespace EventPlannerWPF.ViewModel
         public User CurrentUser => UserSession.Instance.CurrentUser;
 
         public ObservableCollection<CalendarDay> Days { get; private set; }
+
+        public ObservableCollection<int> Years { get; private set; }
         #endregion
 
         /// <summary>
@@ -70,6 +78,7 @@ namespace EventPlannerWPF.ViewModel
             AboutUser = CurrentUser.Login;
             db = new EventPlannerContext();
             LoadCalendar();
+            LoadYears();
             // выбор сегодняшнего дня
             SelectDayCommand.Execute(Days.FirstOrDefault(day => day.Date == DateTime.Now.Date));
         }
@@ -104,8 +113,21 @@ namespace EventPlannerWPF.ViewModel
                     HasNotes = hasNotes
                 });
             }
-                OnPropertyChanged(nameof(Days));
+            OnPropertyChanged(nameof(Days));
+        }
+
+        private void LoadYears()
+        {
+            Years = new ObservableCollection<int>();
+            int startOfCurrentDecade = (CurrentDate.Year / 10) * 10;
+            Years.Add(startOfCurrentDecade - 1);
+
+            for (int year = startOfCurrentDecade; year < startOfCurrentDecade + 10; year++)
+            {
+                Years.Add(year);
             }
+
+            Years.Add(startOfCurrentDecade + 10);
         }
 
         /// <summary>
@@ -158,6 +180,15 @@ namespace EventPlannerWPF.ViewModel
         {
             UserNotes.Clear();
             var monthOffset = int.Parse(monthOffsetString);
+
+            // если текущий месяц - декабрь, а оффсет +1, тогда Year+1
+            if (CurrentDate.Month == 12 && monthOffset == 1) 
+                CurrentDate.AddYears(1);
+
+            // если текущий месяц - январь, а оффсет -1, тогда Year-1
+            if (CurrentDate.Month == 1 && monthOffset == -1) 
+                CurrentDate.AddYears(-1);
+
             CurrentDate = CurrentDate.AddMonths(monthOffset);
             PreviousMonth = CurrentDate.AddMonths(-1).ToString("MMMM");
             CurrentMonth = CurrentDate.ToString("MMMM");
@@ -169,6 +200,14 @@ namespace EventPlannerWPF.ViewModel
             {
                 SelectDayCommand.Execute(Days.FirstOrDefault(day => day.Date == DateTime.Now.Date));
             }
+        }
+
+        [RelayCommand]
+        private void SelectYear(int selectedYear)
+        {
+            CurrentDate = CurrentDate.AddYears(selectedYear - CurrentDate.Year);
+            LoadCalendar();
+            LoadYears();
         }
 
         /// <summary>
