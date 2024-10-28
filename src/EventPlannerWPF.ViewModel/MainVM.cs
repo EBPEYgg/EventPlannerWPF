@@ -17,20 +17,26 @@ namespace EventPlannerWPF.ViewModel
         [ObservableProperty]
         private DateTime _todayDate = DateTime.Now;
 
+        /// <summary>
+        /// Выбранный пользователем день месяца.
+        /// </summary>
         [ObservableProperty]
-        private DayVM _selectedDay;
+        private CalendarDay _selectedDay;
 
         [ObservableProperty]
+        /// <summary>
+        /// Логин пользователя.
+        /// </summary>
         private string _aboutUser;
 
         [ObservableProperty]
-        private string _previousMonth;
+        private string _previousMonth = DateTime.Now.AddMonths(-1).ToString("MMMM");
 
         [ObservableProperty]
-        private string _currentMonth;
+        private string _currentMonth = DateTime.Now.ToString("MMMM");
 
         [ObservableProperty]
-        private string _nextMonth;
+        private string _nextMonth = DateTime.Now.AddMonths(1).ToString("MMMM");
 
         /// <summary>
         /// Список с заметками пользователя.
@@ -49,9 +55,9 @@ namespace EventPlannerWPF.ViewModel
         #endregion
 
         #region Property
-        public User? CurrentUser => UserSession.Instance.CurrentUser;
+        public User CurrentUser => UserSession.Instance.CurrentUser;
 
-        public ObservableCollection<DayVM> Days { get; private set; }
+        public ObservableCollection<CalendarDay> Days { get; private set; }
         #endregion
 
         /// <summary>
@@ -62,11 +68,9 @@ namespace EventPlannerWPF.ViewModel
         public MainVM()
         {
             AboutUser = CurrentUser.Login;
-            PreviousMonth = CurrentDate.AddMonths(-1).ToString("MMMM");
-            CurrentMonth = CurrentDate.ToString("MMMM");
-            NextMonth = CurrentDate.AddMonths(1).ToString("MMMM");
             db = new EventPlannerContext();
             LoadCalendar();
+            // выбор сегодняшнего дня
             SelectDayCommand.Execute(Days.FirstOrDefault(day => day.Date == DateTime.Now.Date));
         }
 
@@ -74,9 +78,9 @@ namespace EventPlannerWPF.ViewModel
         /// <summary>
         /// Метод, который создает сетку календаря на выбранный месяц. 
         /// </summary>
-        private async Task LoadCalendar()
+        private void LoadCalendar()
         {
-            Days = new ObservableCollection<DayVM>();
+            Days = new ObservableCollection<CalendarDay>();
             DateTime firstDayOfMonth = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
             int daysInMonth = DateTime.DaysInMonth(CurrentDate.Year, CurrentDate.Month);
 
@@ -88,10 +92,10 @@ namespace EventPlannerWPF.ViewModel
             {
                 DateTime date = startDate.AddDays(i);
                 bool isCurrentMonth = date.Month == CurrentDate.Month;
-                var hasNotes = await db.Note
-                    .AnyAsync(note => note.User.Id == CurrentUser.Id && note.StartDate.Date == date);
+                var hasNotes = db.Note
+                    .Any(note => note.User.Id == CurrentUser.Id && note.StartDate.Date == date);
 
-                Days.Add(new DayVM
+                Days.Add(new CalendarDay
                 {
                     DisplayText = date.Day.ToString(),
                     Opacity = isCurrentMonth ? 1.0 : 0.5,
@@ -168,12 +172,12 @@ namespace EventPlannerWPF.ViewModel
         }
 
         /// <summary>
-        /// Команда, которая позволяет пользователю выделить 
-        /// день календаря и соответствующую ячейку в календаре.
+        /// Команда, которая загружает список заметок 
+        /// пользователя в определенный день.
         /// </summary>
         /// <param name="day">День календаря.</param>
         [RelayCommand]
-        private async Task SelectDayAsync(DayVM day)
+        private async Task SelectDayAsync(CalendarDay day)
         {
             if (SelectedDay != null)
             {
@@ -205,8 +209,8 @@ namespace EventPlannerWPF.ViewModel
 
             var newNote = new Note
             {
-                StartDate = DateTime.Today.Add(new TimeSpan(0, 0, 0)),
-                EndDate = NoteEndDate,
+                StartDate = SelectedDay.Date.AddHours(NoteStartDate.Hour).AddMinutes(NoteStartDate.Minute),
+                EndDate = SelectedDay.Date.AddHours(NoteEndDate.Hour).AddMinutes(NoteEndDate.Minute),
                 Description = NoteDescription,
                 IsCompleted = false,
                 User = CurrentUser
@@ -215,6 +219,8 @@ namespace EventPlannerWPF.ViewModel
             db.Note.Add(newNote);
             await db.SaveChangesAsync();
             AddNoteSorted(newNote);
+            //TODO: не работает из-за модального окна
+            if (!SelectedDay.HasNotes) SelectedDay.HasNotes = true;
         }
 
         /// <summary>
@@ -256,6 +262,7 @@ namespace EventPlannerWPF.ViewModel
             db.Note.Remove(note);
             await db.SaveChangesAsync();
             UserNotes.Remove(note);
+            //TODO: SelectedDay.HasNotes = false, если была удалена последняя заметка
         }
 
         /// <summary>
@@ -270,7 +277,7 @@ namespace EventPlannerWPF.ViewModel
         }
         #endregion
 
-        public partial class DayVM : ObservableObject
+        public partial class CalendarDay : ObservableObject
         {
             public string DisplayText { get; set; }
 
