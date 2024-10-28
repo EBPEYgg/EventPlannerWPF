@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EventPlannerWPF.View.Windows"
+        xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:vm="clr-namespace:EventPlannerWPF.ViewModel;assembly=EventPlannerWPF.ViewModel"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
@@ -14,17 +15,17 @@
     
     <Border BorderBrush="#0079CB" Background="White" BorderThickness=".8" CornerRadius="15">
         <StackPanel>
-            <TextBlock Text="Start date:" Margin="0,50,0,0" Width="150"/>
-            <TextBox Text="{Binding NoteStartDate, StringFormat='HH:mm'}" Width="150" Margin="0,10,0,0"/>
+            <TextBlock Text="Start date:" Width="150" Margin="0,50,0,0"/>
+            <xceed:TimePicker Value="{Binding NoteStartDate}" TimeInterval="00:15" TextAlignment="Left" ShowButtonSpinner="False" Width="150" Margin="0,10,0,0"/>
 
-            <TextBlock Text="End date:" Margin="0,10,0,0" Width="150"/>
-            <TextBox Text="{Binding NoteEndDate, StringFormat='HH:mm'}" Width="150" Margin="0,10,0,0"/>
+            <TextBlock Text="End date:" Width="150" Margin="0,10,0,0"/>
+            <xceed:TimePicker Value="{Binding NoteEndDate}" TimeInterval="00:15" TextAlignment="Left" ShowButtonSpinner="False" Width="150" Margin="0,10,0,0"/>
 
             <TextBlock Text="Description:" Margin="0,10,0,0" Width="150"/>
             <TextBox Text="{Binding NoteDescription}" TextWrapping="Wrap" Width="150" Margin="0,10,0,0"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
-                <Button Content="Add note" Command="{Binding AddNewNoteCommand}"/>
+                <Button Content="Add note" Click="Button_Click" Command="{Binding AddNewNoteCommand}" />
                 <Button Content="Close window" x:Name="CloseButton" Click="CloseButton_Click"  Margin="10,0,0,0"/>
             </StackPanel>
         </StackPanel>

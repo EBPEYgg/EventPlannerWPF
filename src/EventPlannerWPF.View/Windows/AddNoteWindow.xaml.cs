@@ -14,7 +14,12 @@ namespace EventPlannerWPF.View.Windows
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            DialogResult = false;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
         }
     }
 }
