@@ -230,8 +230,8 @@
                                 <Setter TargetName="border" Property="Opacity" Value="0.65"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter TargetName="border" Property="Height" Value="13"/>
-                                <Setter TargetName="border" Property="Width" Value="13"/>
+                                <Setter TargetName="border" Property="Height" Value="25"/>
+                                <Setter TargetName="border" Property="Width" Value="25"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
