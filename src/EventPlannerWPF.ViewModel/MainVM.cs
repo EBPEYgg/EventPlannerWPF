@@ -48,7 +48,7 @@ namespace EventPlannerWPF.ViewModel
         /// Список с заметками пользователя.
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<Note> _userNotes = new ObservableCollection<Note>();
+        private ObservableCollection<Note> _userNotes = new();
 
         [ObservableProperty]
         private string _noteDescription;
@@ -61,9 +61,9 @@ namespace EventPlannerWPF.ViewModel
         #endregion
 
         #region Property
-        public User CurrentUser => UserSession.Instance.CurrentUser;
+        public static User CurrentUser => UserSession.Instance.CurrentUser;
 
-        public ObservableCollection<CalendarDay> Days { get; private set; }
+        public ObservableCollection<CalendarDay> Days { get; private set; } = new();
 
         public ObservableCollection<int> Years { get; private set; }
         #endregion
@@ -318,7 +318,7 @@ namespace EventPlannerWPF.ViewModel
 
         public partial class CalendarDay : ObservableObject
         {
-            public string DisplayText { get; set; }
+            public string? DisplayText { get; set; }
 
             public double Opacity { get; set; }
 
