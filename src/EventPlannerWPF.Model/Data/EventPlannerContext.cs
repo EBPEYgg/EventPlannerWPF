@@ -17,17 +17,7 @@ namespace EventPlannerWPF.Model.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer
-                ("Server=DESKTOP-58ATQ05\\SQLEXPRESS;Database=EventPlanner;Trusted_Connection=True;TrustServerCertificate=True");
+                ("Server=(localdb)\\MSSQLLocalDB;Database=EventPlanner;Trusted_Connection=True;TrustServerCertificate=True");
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<User>()
-        //        .HasMany(u => u.notes)
-        //        .WithRequired(n => n.User)
-        //        .HasForeignKey(n => n.UserId);
-
-        //    base.OnModelCreating(modelBuilder);
-        //}
     }
 }

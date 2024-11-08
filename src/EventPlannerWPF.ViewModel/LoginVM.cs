@@ -64,7 +64,7 @@ namespace EventPlannerWPF.ViewModel
 
         #region Commands
         [RelayCommand]
-        private async Task Login()
+        private async Task LoginAsync()
         {
             if (string.IsNullOrEmpty(LoginText) || string.IsNullOrEmpty(PasswordText))
             {
